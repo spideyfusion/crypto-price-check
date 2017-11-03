@@ -58,7 +58,8 @@ prices = {
 
 price_difference = ((prices['current'] - prices['past']) / prices['past']) * 100
 
-print('The current price of Bitcoin is {price}. The price change is {diff:+.02f}%.'.format(
+print('The current price of Bitcoin is {price}. The price change is {diff:+.02f}%. <{chartUrl}|View chart>'.format(
     price = locale.currency(prices['current'], grouping=True),
     diff = price_difference,
+    chartUrl = 'https://www.coinbase.com/charts',
 ))
