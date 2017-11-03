@@ -3,6 +3,7 @@ import json
 import locale
 import sys
 import urllib.request
+import timeago
 
 def extract_price(prices, time_offset, time_step=10):
     try:
@@ -51,15 +52,17 @@ if (api_error is not None):
     print('Client error: {}'.format(api_error['message']))
     sys.exit(1)
 
+comparisonTimeOffset = 3600
 prices = {
     'current': extract_price(api_response['data']['prices'], time_offset=0),
-    'past': extract_price(api_response['data']['prices'], time_offset=3600),
+    'past': extract_price(api_response['data']['prices'], time_offset=comparisonTimeOffset),
 }
 
 price_difference = ((prices['current'] - prices['past']) / prices['past']) * 100
 
-print('The current price of Bitcoin is {price}. The price change is {diff:+.02f}%. <{chartUrl}|View chart>'.format(
+print('The current price of Bitcoin is {price}. Compared to {time}, the price change is {diff:+.02f}%. <{chartUrl}|View chart>'.format(
     price = locale.currency(prices['current'], grouping=True),
+    time = timeago.format(datetime.timedelta(seconds = comparisonTimeOffset)),
     diff = price_difference,
     chartUrl = 'https://www.coinbase.com/charts',
 ))
