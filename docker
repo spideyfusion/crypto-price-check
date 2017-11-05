@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+docker build -t bot . >> /dev/null
+
+docker run --rm -it -v $PWD:/app bot $@
